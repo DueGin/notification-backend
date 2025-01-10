@@ -2,14 +2,14 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.duegin.notification.mapper.UserNotificationMapper">
-    <resultMap id="BaseResultMap" type="com.duegin.notification.domain.po.UserNotification">
+<mapper namespace="com.duegin.notification.mapper.UserChannelMapper">
+    <resultMap id="BaseResultMap" type="com.duegin.notification.entity.UserChannel">
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="user_id" jdbcType="INTEGER" property="userId"/>
-        <result column="notification_id" jdbcType="INTEGER" property="notificationId"/>
+        <result column="channel_id" jdbcType="INTEGER" property="channelId"/>
     </resultMap>
     <sql id="Base_Column_List">
-        `id`, `user_id`, `notification_id`
+        `id`, `user_id`, `channel_id`
     </sql>
 
 </mapper>

@@ -1,11 +1,15 @@
-#\u6307\u5B9AMybatis\u7684Mapper\u6587\u4EF6
-mybatis-flex:
-  mapper-locations: classpath:mappers/*xml
-  type-aliases-package: com.duegin.notification.mybatis.entity
+server:
+  servlet:
+    context-path: /api
 
 spring:
   datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/notification
     username: root
     password: 1234
+    type: com.alibaba.druid.pool.DruidDataSource
 
+mybatis-flex:
+  mapper-locations: classpath:mappers/*xml
+  type-aliases-package: com.duegin.notification.entity

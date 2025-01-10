@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.duegin.notification.mapper.ChannelAuthMapper">
+    <resultMap id="BaseResultMap" type="com.duegin.notification.entity.ChannelAuth">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="channel_id" jdbcType="INTEGER" property="channelId"/>
+        <result column="private_key" jdbcType="VARCHAR" property="privateKey"/>
+        <result column="public_key" jdbcType="VARCHAR" property="publicKey"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="deleted" jdbcType="TINYINT" property="deleted"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        `id`, `channel_id`, `private_key`, `public_key`, `create_time`, `deleted`
+    </sql>
+
+</mapper>

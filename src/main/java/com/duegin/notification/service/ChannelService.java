@@ -2,8 +2,8 @@ package com.duegin.notification.service;
 
 
 import com.duegin.notification.config.base.service.impl.BaseServiceImpl;
-import com.duegin.notification.domain.po.Notification;
-import com.duegin.notification.mapper.NotificationMapper;
+import com.duegin.notification.entity.Channel;
+import com.duegin.notification.mapper.ChannelMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
  */
 @Slf4j
 @Service
-public class NotificationService extends BaseServiceImpl<NotificationMapper, Notification> {
+public class ChannelService extends BaseServiceImpl<ChannelMapper, Channel> {
 
 }

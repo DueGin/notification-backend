@@ -3,6 +3,7 @@ package com.duegin.notification.controller;
 import com.duegin.notification.config.Result;
 import com.duegin.notification.domain.dto.LoginDTO;
 import com.duegin.notification.service.LoginService;
+import com.duegin.notification.utils.JwtTokenUtils;
 import com.mybatisflex.core.paginate.Page;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,10 +14,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.duegin.notification.service.UserService;
-import com.duegin.notification.domain.po.User;
+import com.duegin.notification.entity.User;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 import java.io.Serializable;
 import java.util.List;
 
@@ -35,9 +37,14 @@ public class UserController {
     @Resource
     private LoginService loginService;
 
-    @PostMapping("/")
-    public Result<Void> login(@RequestBody LoginDTO loginDTO) {
-        loginService.login(loginDTO);
+    @PostMapping("/login")
+    public Result<Void> login(@RequestBody LoginDTO loginDTO, HttpServletResponse response) {
+        String token = loginService.login(loginDTO, response);
+        // 设置token头浏览器可见
+        response.setHeader("Access-Control-Expose-Headers", JwtTokenUtils.TOKEN_HEADER);
+
+        // 设置响应头
+        response.setHeader(JwtTokenUtils.TOKEN_HEADER, JwtTokenUtils.TOKEN_PREFIX + token);
         return Result.ok();
     }
 

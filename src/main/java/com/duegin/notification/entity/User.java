@@ -1,4 +1,4 @@
-package com.duegin.notification.domain.po;
+package com.duegin.notification.entity;
 
 import com.mybatisflex.annotation.Column;
 import com.mybatisflex.annotation.Id;
@@ -9,34 +9,49 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 /**
- * 通知通道配置 实体类。
+ * 实体类。
  *
  * @author mybatis-flex-helper automatic generation
  * @since 1.0
  */
+@Table(value = "user")
 @Data
-@Table(value = "notification")
-public class Notification {
+public class User {
 
     @Id(keyType = KeyType.Auto)
     private Integer id;
 
     /**
-     * 订阅通知名称
+     * UID
      */
-    @Column(value = "name")
-    private String name;
+    @Column(value = "account")
+    private String account;
 
     /**
-     * 创建人
+     * 用户名
      */
-    @Column(value = "create_user")
-    private Integer createUser;
+    @Column(value = "username")
+    private String username;
+
+    /**
+     * 密码
+     */
+    @Column(value = "password")
+    private String password;
+
+    /**
+     * 邮箱
+     */
+    @Column(value = "email")
+    private String email;
 
     @Column(value = "create_time")
     private LocalDateTime createTime;
 
     @Column(value = "update_time")
     private LocalDateTime updateTime;
+
+    @Column(value = "deleted")
+    private Integer deleted;
 
 }

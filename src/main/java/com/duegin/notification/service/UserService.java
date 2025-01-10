@@ -3,7 +3,7 @@ package com.duegin.notification.service;
 
 import com.duegin.notification.config.base.service.impl.BaseServiceImpl;
 import org.springframework.stereotype.Service;
-import com.duegin.notification.domain.po.User;
+import com.duegin.notification.entity.User;
 import com.duegin.notification.mapper.UserMapper;
 
 /**

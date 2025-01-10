@@ -1,6 +1,6 @@
 package com.duegin.notification.mapper;
 
-import com.duegin.notification.domain.po.User;
+import com.duegin.notification.entity.User;
 import com.mybatisflex.core.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 

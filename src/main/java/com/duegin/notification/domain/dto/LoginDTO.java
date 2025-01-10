@@ -16,4 +16,6 @@ public class LoginDTO {
     private String username;
     @NotEmpty
     private String password;
+
+    private Boolean isRememberMe = false;
 }
