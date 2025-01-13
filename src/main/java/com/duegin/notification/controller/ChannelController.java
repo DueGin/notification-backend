@@ -1,5 +1,7 @@
 package com.duegin.notification.controller;
 
+import com.duegin.notification.config.Result;
+import com.duegin.notification.domain.dto.ChannelSaveDTO;
 import com.duegin.notification.entity.Channel;
 import com.duegin.notification.service.ChannelService;
 import com.mybatisflex.core.paginate.Page;
@@ -38,7 +40,7 @@ public class ChannelController {
     /**
      * 添加 通知通道配置
      *
-     * @param channel 通知通道配置
+     * @param channelSaveDTO 通知通道配置
      * @return {@code true} 添加成功，{@code false} 添加失败
      */
     @PostMapping("/save")
@@ -50,8 +52,9 @@ public class ChannelController {
             @ApiImplicitParam(name = "createTime", value = ""),
             @ApiImplicitParam(name = "updateTime", value = "")
     })
-    public boolean save(@RequestBody Channel channel) {
-        return channelService.save(channel);
+    public Result<Void> save(@RequestBody ChannelSaveDTO channelSaveDTO) {
+        channelService.insertOrUpdate(channelSaveDTO);
+        return Result.ok();
     }
 
 
@@ -68,38 +71,6 @@ public class ChannelController {
     })
     public boolean remove(@PathVariable Serializable id) {
         return channelService.removeById(id);
-    }
-
-
-    /**
-     * 根据主键更新通知通道配置
-     *
-     * @param channel 通知通道配置
-     * @return {@code true} 更新成功，{@code false} 更新失败
-     */
-    @PutMapping("/update")
-    @ApiOperation(value = "根据主键更新通知通道配置", notes = "根据主键更新通知通道配置")
-    @ApiImplicitParams(value = {
-            @ApiImplicitParam(name = "id", value = "", required = true),
-            @ApiImplicitParam(name = "name", value = "订阅通知名称"),
-            @ApiImplicitParam(name = "createUser", value = "创建人"),
-            @ApiImplicitParam(name = "createTime", value = ""),
-            @ApiImplicitParam(name = "updateTime", value = "")
-    })
-    public boolean update(@RequestBody Channel channel) {
-        return channelService.updateById(channel);
-    }
-
-
-    /**
-     * 查询所有通知通道配置
-     *
-     * @return 所有数据
-     */
-    @GetMapping("/list")
-    @ApiOperation(value = "查询所有通知通道配置", notes = "查询所有通知通道配置")
-    public List<Channel> list() {
-        return channelService.list();
     }
 
 

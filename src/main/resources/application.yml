@@ -13,3 +13,5 @@ spring:
 mybatis-flex:
   mapper-locations: classpath:mappers/*xml
   type-aliases-package: com.duegin.notification.entity
+  global-config:
+    logic-delete-column: deleted

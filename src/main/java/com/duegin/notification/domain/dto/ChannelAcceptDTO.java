@@ -2,6 +2,8 @@ package com.duegin.notification.domain.dto;
 
 import lombok.Data;
 
+import javax.validation.constraints.NotEmpty;
+
 /**
  * 接收消息DTO
  *
@@ -14,5 +16,6 @@ public class ChannelAcceptDTO {
     private String name;
     private String text;
     private String callbackUrl;
-    private String publicKey;
+    @NotEmpty
+    private String token;
 }

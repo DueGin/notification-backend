@@ -36,18 +36,16 @@ public class ChannelAuth {
     private Integer channelId;
 
     /**
-     * 私钥
+     * 用户ID
      */
-    @ApiModelProperty(value = "私钥")
-    @Column(value = "private_key")
-    private String privateKey;
+    @ApiModelProperty(value = "用户ID")
+    private Integer userId;
 
     /**
-     * 公钥
+     * 授权token
      */
-    @ApiModelProperty(value = "公钥")
-    @Column(value = "public_key")
-    private String publicKey;
+    private String token;
+
 
     /**
      * 创建时间

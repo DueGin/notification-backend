@@ -10,14 +10,18 @@ import java.util.Base64;
 
 public class RSAUtil {
 
-    // 生成RSA密钥对
+    /**
+     * 生成RSA密钥对
+     */
     public static KeyPair generateRSAKeyPair() throws NoSuchAlgorithmException {
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
         keyPairGenerator.initialize(2048);  // 2048位密钥长度
         return keyPairGenerator.generateKeyPair();
     }
 
-    // 公钥加密
+    /**
+     * 公钥加密
+     */
     public static String encryptWithPublicKey(String data, String publicKeyStr) throws Exception {
         PublicKey publicKey = getPublicKeyFromBase64(publicKeyStr);
         Cipher cipher = Cipher.getInstance("RSA");
@@ -26,7 +30,9 @@ public class RSAUtil {
         return Base64.getEncoder().encodeToString(encryptedBytes);
     }
 
-    // 私钥解密
+    /**
+     * 私钥解密
+     */
     public static String decryptWithPrivateKey(String encryptedData, String privateKeyStr) throws Exception {
         PrivateKey privateKey = getPrivateKeyFromBase64(privateKeyStr);
         Cipher cipher = Cipher.getInstance("RSA");

@@ -1,16 +1,14 @@
 package com.duegin.notification.config.filter;
 
 
-import com.duegin.notification.config.BaseContext;
+import com.duegin.notification.config.UserContext;
 import com.duegin.notification.config.exception.BusinessException;
 import com.duegin.notification.entity.User;
 import com.duegin.notification.mapper.UserMapper;
 import com.duegin.notification.utils.JwtTokenUtils;
-import com.mybatisflex.core.query.QueryChain;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.servlet.*;
@@ -18,11 +16,6 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import static com.duegin.notification.entity.table.UserTableDef.USER;
 
 /**
  * 处理HTTP请求的BASIC授权标头，然后将结果放入SecurityContextHolder
@@ -89,7 +82,7 @@ public class JwtAuthorizationFilter implements Filter {
         if (user == null) {
             throw new BusinessException("用户不存在");
         }
-        BaseContext.setCurrentId(user);
+        UserContext.setUser(user);
     }
 
 }

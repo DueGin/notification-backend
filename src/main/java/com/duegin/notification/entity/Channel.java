@@ -28,6 +28,11 @@ public class Channel {
     private String name;
 
     /**
+     * UUID
+     */
+    private String uuid;
+
+    /**
      * 创建人
      */
     @Column(value = "create_user")

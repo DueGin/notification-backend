@@ -46,11 +46,31 @@ public class JwtTokenUtils {
      */
     private static final String PERM_CLAIMS = "PERM";
 
+    private static final String CHANNEL_AUTH_KEY = "isAuthKey";
+
+    public static String createChannelAuthToken(Integer userId) {
+        Map<String, Object> data = new HashMap<>();
+        data.put(CHANNEL_AUTH_KEY, true);
+        return Jwts.builder()
+                .signWith(SignatureAlgorithm.HS512, SECRET)
+                // 额外信息，这里要早set一点，放到后面会覆盖别的字段
+                .setClaims(data)
+                .setIssuer(ISS)
+                .setSubject(String.valueOf(userId))
+                .setIssuedAt(new Date())
+                .compact();
+    }
+
+    public static boolean checkChannelAuthToken(String token) {
+        Boolean b = getTokenBody(token).get(CHANNEL_AUTH_KEY, Boolean.class);
+        return Boolean.TRUE.equals(b);
+    }
+
     /**
      * 创建token
      * TODO 这里是存在问题，我将权限信封装到jwt中，实际应该存储到redis中。主要是安全问题
      *
-     * @param userId  登录用户名和ID，格式：userAccount_userId
+     * @param userId       登录用户名和ID，格式：userAccount_userId
      * @param roleList     角色集合
      * @param roleMap      角色KV集合
      * @param isRememberMe 是否记住我
