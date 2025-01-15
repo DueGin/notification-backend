@@ -3,14 +3,19 @@ package com.duegin.notification.config.filter;
 
 import com.duegin.notification.config.UserContext;
 import com.duegin.notification.config.exception.BusinessException;
+import com.duegin.notification.config.properties.SecurityProperties;
 import com.duegin.notification.entity.User;
 import com.duegin.notification.mapper.UserMapper;
 import com.duegin.notification.utils.JwtTokenUtils;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.stereotype.Component;
+import org.springframework.util.AntPathMatcher;
 
+import javax.annotation.Resource;
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
@@ -22,14 +27,21 @@ import java.io.IOException;
  *
  * @author crush
  */
+@Component
 @WebFilter(filterName = "LoginCheckFilter", urlPatterns = "/*")
+@EnableConfigurationProperties(SecurityProperties.class)
 public class JwtAuthorizationFilter implements Filter {
 
     private final Logger log = LoggerFactory.getLogger(JwtAuthorizationFilter.class);
 
-    @Value("jwt.excludes")
-    private String[] excludes;
+    /**
+     * security properties
+     * 在配置文件中配置
+     */
+    @Resource
+    private SecurityProperties securityProperties;
 
+    @Autowired
     private UserMapper userMapper;
 
     @Override
@@ -38,8 +50,9 @@ public class JwtAuthorizationFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         // 过滤白名单路由
         String uri = request.getRequestURI();
-        for (String exclude : excludes) {
-            if (uri.equals("/api" + exclude)) {
+        AntPathMatcher antPathMatcher = new AntPathMatcher();
+        for (String exclude : securityProperties.getExcludes()) {
+            if (antPathMatcher.match(exclude, uri)) {
                 chain.doFilter(request, response);
                 return;
             }
@@ -50,7 +63,8 @@ public class JwtAuthorizationFilter implements Filter {
 
         // 如果请求头中没有Authorization信息则直接放行了
         if (tokenHeader == null || !tokenHeader.startsWith(JwtTokenUtils.TOKEN_PREFIX)) {
-            chain.doFilter(request, response);
+            response.setStatus(403);
+            response.getWriter().write("NO LOGIN");
             return;
         }
 

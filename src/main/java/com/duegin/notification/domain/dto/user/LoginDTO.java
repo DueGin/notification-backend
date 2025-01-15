@@ -1,4 +1,4 @@
-package com.duegin.notification.domain.dto;
+package com.duegin.notification.domain.dto.user;
 
 import lombok.Data;
 

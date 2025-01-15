@@ -1,19 +1,22 @@
 package com.duegin.notification.service;
 
 import com.duegin.notification.config.exception.BusinessException;
-import com.duegin.notification.domain.dto.LoginDTO;
+import com.duegin.notification.convert.UserConvertor;
+import com.duegin.notification.domain.dto.user.LoginDTO;
+import com.duegin.notification.domain.dto.user.RegisterDTO;
 import com.duegin.notification.entity.User;
 import com.duegin.notification.mapper.UserMapper;
 import com.duegin.notification.utils.JwtTokenUtils;
 import com.mybatisflex.core.query.QueryChain;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
-
 import java.util.Collections;
+import java.util.UUID;
 
 import static com.duegin.notification.entity.table.UserTableDef.USER;
 
@@ -28,10 +31,11 @@ public class LoginService {
 
     @Resource
     private UserMapper userMapper;
+    @Autowired
+    private UserConvertor userConvertor;
 
     public String login(LoginDTO loginDTO, HttpServletResponse response) {
-        String password = loginDTO.getPassword();
-        DigestUtils.sha1Hex(password);
+        String password = DigestUtils.sha1Hex(loginDTO.getPassword());
         User user = QueryChain.of(userMapper)
                 .from(USER)
                 .where(USER.USERNAME.eq(loginDTO.getUsername()))
@@ -49,5 +53,12 @@ public class LoginService {
         } catch (Exception e) {
             throw new BusinessException("登录失败，请联系管理员！");
         }
+    }
+
+    public void register(RegisterDTO registerDTO) {
+        User user = userConvertor.registerDTOToUser(registerDTO);
+        user.setAccount(UUID.randomUUID().toString().replaceAll("-", ""));
+        user.setPassword(DigestUtils.sha1Hex(registerDTO.getPassword()));
+        userMapper.insert(user);
     }
 }

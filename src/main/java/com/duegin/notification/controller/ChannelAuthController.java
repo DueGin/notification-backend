@@ -3,27 +3,17 @@ package com.duegin.notification.controller;
 import com.duegin.notification.config.Result;
 import com.duegin.notification.domain.vo.channel_auth.ChannelAuthVO;
 import com.duegin.notification.service.channel.auth.ChannelAuthService;
-import com.mybatisflex.core.paginate.Page;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.duegin.notification.entity.ChannelAuth;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiImplicitParam;
-
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 
 /**
  * 频道授权 控制层。
@@ -33,7 +23,7 @@ import javax.validation.constraints.NotNull;
  */
 @Validated
 @RestController
-@RequestMapping("/channelAuth")
+@RequestMapping("/api/channelAuth")
 @Api(tags = "频道授权")
 public class ChannelAuthController {
 

@@ -1,17 +1,10 @@
 package com.duegin.notification.controller;
 
-import com.mybatisflex.core.paginate.Page;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.beans.factory.annotation.Autowired;
-import com.duegin.notification.service.UserChannelService;
 import com.duegin.notification.entity.UserChannel;
-import org.springframework.web.bind.annotation.RestController;
+import com.duegin.notification.service.UserChannelService;
+import com.mybatisflex.core.paginate.Page;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.Serializable;
 import java.util.List;
@@ -23,7 +16,7 @@ import java.util.List;
  * @since 1.0
  */
 @RestController
-@RequestMapping("/userChannel")
+@RequestMapping("/api/userChannel")
 public class UserChannelController {
 
     @Autowired

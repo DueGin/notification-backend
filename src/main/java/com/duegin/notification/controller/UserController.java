@@ -1,21 +1,15 @@
 package com.duegin.notification.controller;
 
 import com.duegin.notification.config.Result;
-import com.duegin.notification.domain.dto.LoginDTO;
+import com.duegin.notification.domain.dto.user.LoginDTO;
+import com.duegin.notification.domain.dto.user.RegisterDTO;
+import com.duegin.notification.entity.User;
 import com.duegin.notification.service.LoginService;
+import com.duegin.notification.service.UserService;
 import com.duegin.notification.utils.JwtTokenUtils;
 import com.mybatisflex.core.paginate.Page;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.duegin.notification.service.UserService;
-import com.duegin.notification.entity.User;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
@@ -23,13 +17,13 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * 控制层。
+ * 用户控制层。
  *
  * @author mybatis-flex-helper automatic generation
  * @since 1.0
  */
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 public class UserController {
 
     @Autowired
@@ -45,6 +39,12 @@ public class UserController {
 
         // 设置响应头
         response.setHeader(JwtTokenUtils.TOKEN_HEADER, JwtTokenUtils.TOKEN_PREFIX + token);
+        return Result.ok();
+    }
+
+    @PostMapping("/register")
+    public Result<Void> register(@RequestBody RegisterDTO registerDTO) {
+        loginService.register(registerDTO);
         return Result.ok();
     }
 

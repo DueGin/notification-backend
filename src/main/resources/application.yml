@@ -1,6 +1,3 @@
-server:
-  servlet:
-    context-path: /api
 
 spring:
   datasource:
@@ -15,3 +12,29 @@ mybatis-flex:
   type-aliases-package: com.duegin.notification.entity
   global-config:
     logic-delete-column: deleted
+
+security:
+  excludes:
+    - /api/user/login
+    - /api/user/register
+    - /doc.html
+    - /webjars/**
+    - /swagger-resources
+    - /v2/api-docs
+    - /favicon.ico
+    - /swagger-ui/**
+
+knife4j:
+  enable: true
+  openapi:
+    title: 通知系统
+    description: "旨在**通知**消息"
+    email: 1917764907@qq.com
+    concat: DueGin
+    version: v1.0
+    group:
+      test1:
+        group-name: 通知系统
+        api-rule: package
+        api-rule-resources:
+          - com.duegin.notification.controller

@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 接收
+ * 接收频道消息
  * @author DueGin
  * @date 2025/1/4
  */
 @RestController
-@RequestMapping("/channel/accept")
+@RequestMapping("/api/channel/accept")
 public class ChannelAcceptController {
 
     @PostMapping("/")
