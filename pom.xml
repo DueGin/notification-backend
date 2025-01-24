@@ -14,7 +14,6 @@
         <spring-boot.version>2.7.6</spring-boot.version>
         <druid.version>1.2.16</druid.version>
         <jjwt.version>0.9.0</jjwt.version>
-        <knife4j.version>3.0.3</knife4j.version>
         <mybatis-flex.version>1.10.4</mybatis-flex.version>
         <mapstruct.version>1.5.3.Final</mapstruct.version>
     </properties>
@@ -32,13 +31,18 @@
 <!--        <dependency>-->
 <!--            <groupId>com.github.xiaoymin</groupId>-->
 <!--            <artifactId>knife4j-spring-boot-starter</artifactId>-->
-<!--            <version>${knife4j.version}</version>-->
+<!--            <version>3.0.3</version>-->
 <!--        </dependency>-->
-        <dependency>
-            <groupId>com.github.xiaoymin</groupId>
-            <artifactId>knife4j-openapi2-spring-boot-starter</artifactId>
-            <version>4.5.0</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.github.xiaoymin</groupId>-->
+<!--            <artifactId>knife4j-openapi2-spring-boot-starter</artifactId>-->
+<!--            <version>4.5.0</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>com.github.xiaoymin</groupId>-->
+<!--            <artifactId>knife4j-openapi3-spring-boot-starter</artifactId>-->
+<!--            <version>4.4.0</version>-->
+<!--        </dependency>-->
 
 
         <!--        tools-->

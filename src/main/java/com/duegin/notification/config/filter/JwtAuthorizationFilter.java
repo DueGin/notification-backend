@@ -63,27 +63,19 @@ public class JwtAuthorizationFilter implements Filter {
 
         // 如果请求头中没有Authorization信息则直接放行了
         if (tokenHeader == null || !tokenHeader.startsWith(JwtTokenUtils.TOKEN_PREFIX)) {
-            response.setStatus(403);
-            response.getWriter().write("NO LOGIN");
+            noLogin(response);
             return;
         }
 
         String token = JwtTokenUtils.getToken(tokenHeader);
-
-//        // token是否在黑名单中 或 已经退出登录的token
-//        boolean had = this.tokenRedis.hasBlankToken(token);
-//        if (had) {
-//            log.error("token在黑名单中 ==> token: {}", token);
-//            chain.doFilter(request, response);
-//            return;
-//        }
 
         try {
             // 解析token，填充TheadLocal
             checkAndSetBaseContext(token);
         } catch (ExpiredJwtException e) {
             log.info("token过期 ==> token: {}, msg: {}", token, e.getMessage());
-            e.printStackTrace();
+            noLogin(response);
+            return;
         }
 
         chain.doFilter(request, response);
@@ -91,7 +83,7 @@ public class JwtAuthorizationFilter implements Filter {
 
     private void checkAndSetBaseContext(String token) {
         // 从jwt token中拿出username、角色，然后解析出权限
-        Long userId = Long.valueOf(JwtTokenUtils.getUserId(token));
+        Integer userId = Integer.valueOf(JwtTokenUtils.getUserId(token));
         User user = userMapper.selectOneById(userId);
         if (user == null) {
             throw new BusinessException("用户不存在");
@@ -99,4 +91,9 @@ public class JwtAuthorizationFilter implements Filter {
         UserContext.setUser(user);
     }
 
+
+    private void noLogin(HttpServletResponse response) throws IOException {
+        response.setStatus(403);
+        response.getWriter().write("NO LOGIN");
+    }
 }

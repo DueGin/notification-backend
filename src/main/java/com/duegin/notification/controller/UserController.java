@@ -1,13 +1,20 @@
 package com.duegin.notification.controller;
 
 import com.duegin.notification.config.Result;
+import com.duegin.notification.config.UserContext;
 import com.duegin.notification.domain.dto.user.LoginDTO;
 import com.duegin.notification.domain.dto.user.RegisterDTO;
+import com.duegin.notification.domain.dto.user.UserPageDTO;
+import com.duegin.notification.domain.dto.user.UserSaveDTO;
+import com.duegin.notification.domain.vo.user.UserVO;
 import com.duegin.notification.entity.User;
+import com.duegin.notification.mapper.UserMapper;
 import com.duegin.notification.service.LoginService;
 import com.duegin.notification.service.UserService;
 import com.duegin.notification.utils.JwtTokenUtils;
 import com.mybatisflex.core.paginate.Page;
+import com.mybatisflex.core.query.QueryChain;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,12 +23,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.Serializable;
 import java.util.List;
 
-/**
- * 用户控制层。
- *
- * @author mybatis-flex-helper automatic generation
- * @since 1.0
- */
+import static com.duegin.notification.entity.table.UserTableDef.USER;
+
+
+@Slf4j
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
@@ -30,18 +35,27 @@ public class UserController {
     private UserService userService;
     @Resource
     private LoginService loginService;
+    @Resource
+    private UserMapper userMapper;
 
+    /**
+     * 登录
+     */
     @PostMapping("/login")
-    public Result<Void> login(@RequestBody LoginDTO loginDTO, HttpServletResponse response) {
+    public Result<UserVO> login(@RequestBody LoginDTO loginDTO, HttpServletResponse response) {
         String token = loginService.login(loginDTO, response);
         // 设置token头浏览器可见
         response.setHeader("Access-Control-Expose-Headers", JwtTokenUtils.TOKEN_HEADER);
 
         // 设置响应头
         response.setHeader(JwtTokenUtils.TOKEN_HEADER, JwtTokenUtils.TOKEN_PREFIX + token);
-        return Result.ok();
+        log.info("登录成功，userId: {}", UserContext.getUserId());
+        return currentUser();
     }
 
+    /**
+     * 注册
+     */
     @PostMapping("/register")
     public Result<Void> register(@RequestBody RegisterDTO registerDTO) {
         loginService.register(registerDTO);
@@ -49,22 +63,29 @@ public class UserController {
     }
 
     /**
-     * 添加
-     *
-     * @param user
-     * @return {@code true} 添加成功，{@code false} 添加失败
+     * 获取当前登录用户信息
+     */
+    @GetMapping("/currentUser")
+    public Result<UserVO> currentUser() {
+        Integer userId = UserContext.getUserId();
+        UserVO userVO = QueryChain.of(userMapper)
+                .from(USER)
+                .where(USER.ID.eq(userId))
+                .oneAs(UserVO.class);
+        return Result.ok(userVO);
+    }
+
+    /**
+     * 保存用户
      */
     @PostMapping("/save")
-    public boolean save(@RequestBody User user) {
-        return userService.save(user);
+    public Result<Integer> save(@RequestBody UserSaveDTO userSaveDTO) {
+        return Result.ok(userService.insertOrUpdateUser(userSaveDTO));
     }
 
 
     /**
-     * 根据主键删除
-     *
-     * @param id 主键
-     * @return {@code true} 删除成功，{@code false} 删除失败
+     * 删除用户
      */
     @DeleteMapping("/remove/{id}")
     public boolean remove(@PathVariable Serializable id) {
@@ -73,21 +94,7 @@ public class UserController {
 
 
     /**
-     * 根据主键更新
-     *
-     * @param user
-     * @return {@code true} 更新成功，{@code false} 更新失败
-     */
-    @PutMapping("/update")
-    public boolean update(@RequestBody User user) {
-        return userService.updateById(user);
-    }
-
-
-    /**
      * 查询所有
-     *
-     * @return 所有数据
      */
     @GetMapping("/list")
     public List<User> list() {
@@ -96,25 +103,22 @@ public class UserController {
 
 
     /**
-     * 根据主键获取详细信息。
-     *
-     * @param id user主键
-     * @return 详情
+     * 用户详情
      */
-    @GetMapping("/getInfo/{id}")
-    public User getInfo(@PathVariable Serializable id) {
-        return userService.getById(id);
+    @GetMapping("/{id}")
+    public Result<UserVO> getInfo(@PathVariable Integer id) {
+        return Result.ok(QueryChain.of(userMapper)
+                .from(USER)
+                .where(USER.ID.eq(id))
+                .oneAs(UserVO.class));
     }
 
 
     /**
      * 分页查询
-     *
-     * @param page 分页对象
-     * @return 分页对象
      */
     @GetMapping("/page")
-    public Page<User> page(Page<User> page) {
-        return userService.page(page);
+    public Result<Page<UserVO>> page(Page page, UserPageDTO userPageDTO) {
+        return Result.ok(userService.getPage(page, userPageDTO));
     }
 }

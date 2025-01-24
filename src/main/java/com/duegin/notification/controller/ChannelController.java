@@ -5,24 +5,14 @@ import com.duegin.notification.domain.dto.ChannelSaveDTO;
 import com.duegin.notification.entity.Channel;
 import com.duegin.notification.service.ChannelService;
 import com.mybatisflex.core.paginate.Page;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.Serializable;
 
-/**
- * 通知通道配置 控制层。
- *
- * @author DueGin
- * @since 1.0
- */
+
 @RestController
 @RequestMapping("/api/channel")
-@Api(tags = "通知通道配置")
 public class ChannelController {
 
     @Autowired
@@ -35,14 +25,6 @@ public class ChannelController {
      * @return {@code true} 添加成功，{@code false} 添加失败
      */
     @PostMapping("/save")
-    @ApiOperation(value = "添加通知通道配置", notes = "添加通知通道配置")
-    @ApiImplicitParams(value = {
-            @ApiImplicitParam(name = "id", value = ""),
-            @ApiImplicitParam(name = "name", value = "订阅通知名称"),
-            @ApiImplicitParam(name = "createUser", value = "创建人"),
-            @ApiImplicitParam(name = "createTime", value = ""),
-            @ApiImplicitParam(name = "updateTime", value = "")
-    })
     public Result<Void> save(@RequestBody ChannelSaveDTO channelSaveDTO) {
         channelService.insertOrUpdate(channelSaveDTO);
         return Result.ok();
@@ -56,10 +38,6 @@ public class ChannelController {
      * @return {@code true} 删除成功，{@code false} 删除失败
      */
     @DeleteMapping("/remove/{id}")
-    @ApiOperation(value = "根据主键删除通知通道配置", notes = "根据主键删除通知通道配置")
-    @ApiImplicitParams(value = {
-            @ApiImplicitParam(name = "id", value = "", required = true)
-    })
     public boolean remove(@PathVariable Serializable id) {
         return channelService.removeById(id);
     }
@@ -72,10 +50,6 @@ public class ChannelController {
      * @return 通知通道配置详情
      */
     @GetMapping("/getInfo/{id}")
-    @ApiOperation(value = "根据通知通道配置主键获取详细信息", notes = "根据通知通道配置主键获取详细信息")
-    @ApiImplicitParams(value = {
-            @ApiImplicitParam(name = "id", value = "", required = true)
-    })
     public Channel getInfo(@PathVariable Serializable id) {
         return channelService.getById(id);
     }
@@ -88,11 +62,6 @@ public class ChannelController {
      * @return 分页对象
      */
     @GetMapping("/page")
-    @ApiOperation(value = "分页查询通知通道配置", notes = "分页查询通知通道配置")
-    @ApiImplicitParams(value = {
-            @ApiImplicitParam(name = "pageNumber", value = "页码", required = true),
-            @ApiImplicitParam(name = "pageSize", value = "每页大小", required = true)
-    })
     public Page<Channel> page(Page<Channel> page) {
         return channelService.page(page);
     }

@@ -1,6 +1,7 @@
 package com.duegin.notification.convert;
 
 import com.duegin.notification.domain.dto.user.RegisterDTO;
+import com.duegin.notification.domain.dto.user.UserSaveDTO;
 import com.duegin.notification.entity.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
@@ -13,4 +14,6 @@ import org.mapstruct.MappingConstants;
 public interface UserConvertor {
 
     User registerDTOToUser(RegisterDTO registerDTO);
+
+    User userSaveDTOToUser(UserSaveDTO userSaveDTO);
 }

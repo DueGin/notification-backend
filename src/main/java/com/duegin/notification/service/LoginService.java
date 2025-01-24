@@ -1,5 +1,6 @@
 package com.duegin.notification.service;
 
+import com.duegin.notification.config.UserContext;
 import com.duegin.notification.config.exception.BusinessException;
 import com.duegin.notification.convert.UserConvertor;
 import com.duegin.notification.domain.dto.user.LoginDTO;
@@ -12,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
@@ -27,6 +29,7 @@ import static com.duegin.notification.entity.table.UserTableDef.USER;
  */
 @Slf4j
 @Service
+@CrossOrigin
 public class LoginService {
 
     @Resource
@@ -46,6 +49,8 @@ public class LoginService {
         if (user == null) {
             throw new BusinessException("账号或密码错误");
         }
+
+        UserContext.setUser(user);
 
         // 发token
         try {
