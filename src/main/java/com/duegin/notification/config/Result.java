@@ -24,7 +24,7 @@ public class Result<T> {
     }
 
     public static Result<Void> ok() {
-        return new Result<>(ResultEnum.SUCCESS.getCode(), null, null);
+        return new Result<>(ResultEnum.SUCCESS.getCode(), "操作成功", null);
     }
 
     public static Result<Void> ok(String msg) {
@@ -41,7 +41,7 @@ public class Result<T> {
     }
 
     public static <T> Result<T> ok(T data) {
-        return new Result<>(ResultEnum.SUCCESS.getCode(), null, data);
+        return new Result<>(ResultEnum.SUCCESS.getCode(), "操作成功", data);
     }
 
     public static <T> Result<T> fail(String msg) {

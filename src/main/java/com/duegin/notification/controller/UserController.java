@@ -19,8 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.Serializable;
 import java.util.List;
 
 import static com.duegin.notification.entity.table.UserTableDef.USER;
@@ -42,8 +42,8 @@ public class UserController {
      * 登录
      */
     @PostMapping("/login")
-    public Result<UserVO> login(@RequestBody LoginDTO loginDTO, HttpServletResponse response) {
-        String token = loginService.login(loginDTO, response);
+    public Result<UserVO> login(@RequestBody LoginDTO loginDTO, HttpServletRequest request, HttpServletResponse response) {
+        String token = loginService.login(loginDTO, request);
         // 设置token头浏览器可见
         response.setHeader("Access-Control-Expose-Headers", JwtTokenUtils.TOKEN_HEADER);
 
@@ -88,8 +88,9 @@ public class UserController {
      * 删除用户
      */
     @DeleteMapping("/remove/{id}")
-    public boolean remove(@PathVariable Serializable id) {
-        return userService.removeById(id);
+    public Result<Void> remove(@PathVariable Integer id) {
+        userService.removeById(id);
+        return Result.ok();
     }
 
 

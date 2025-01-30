@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletRequest;
 import java.util.Collections;
 import java.util.UUID;
 
@@ -37,7 +37,7 @@ public class LoginService {
     @Autowired
     private UserConvertor userConvertor;
 
-    public String login(LoginDTO loginDTO, HttpServletResponse response) {
+    public String login(LoginDTO loginDTO, HttpServletRequest request) {
         String password = DigestUtils.sha1Hex(loginDTO.getPassword());
         User user = QueryChain.of(userMapper)
                 .from(USER)
@@ -52,6 +52,8 @@ public class LoginService {
 
         UserContext.setUser(user);
 
+        request.getSession().setAttribute("user", user);
+
         // 发token
         try {
             return JwtTokenUtils.createToken(String.valueOf(user.getId()), Collections.emptyList(), Collections.emptyMap(), loginDTO.getIsRememberMe());
@@ -62,7 +64,7 @@ public class LoginService {
 
     public void register(RegisterDTO registerDTO) {
         User user = userConvertor.registerDTOToUser(registerDTO);
-        user.setAccount(UUID.randomUUID().toString().replaceAll("-", ""));
+        user.setAccount(UUID.randomUUID().toString().replaceAll("-", "").toUpperCase());
         user.setPassword(DigestUtils.sha1Hex(registerDTO.getPassword()));
         userMapper.insert(user);
     }

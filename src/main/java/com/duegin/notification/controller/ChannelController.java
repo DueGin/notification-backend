@@ -2,13 +2,12 @@ package com.duegin.notification.controller;
 
 import com.duegin.notification.config.Result;
 import com.duegin.notification.domain.dto.ChannelSaveDTO;
-import com.duegin.notification.entity.Channel;
+import com.duegin.notification.domain.dto.channel.ChannelPageDTO;
+import com.duegin.notification.domain.vo.channel.ChannelVO;
 import com.duegin.notification.service.ChannelService;
 import com.mybatisflex.core.paginate.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.io.Serializable;
 
 
 @RestController
@@ -19,10 +18,7 @@ public class ChannelController {
     private ChannelService channelService;
 
     /**
-     * 添加 通知通道配置
-     *
-     * @param channelSaveDTO 通知通道配置
-     * @return {@code true} 添加成功，{@code false} 添加失败
+     * 保存
      */
     @PostMapping("/save")
     public Result<Void> save(@RequestBody ChannelSaveDTO channelSaveDTO) {
@@ -32,37 +28,29 @@ public class ChannelController {
 
 
     /**
-     * 根据主键删除通知通道配置
-     *
-     * @param id 主键
-     * @return {@code true} 删除成功，{@code false} 删除失败
+     * 删除
      */
     @DeleteMapping("/remove/{id}")
-    public boolean remove(@PathVariable Serializable id) {
-        return channelService.removeById(id);
+    public Result<Void> remove(@PathVariable Integer id) {
+        channelService.removeById(id);
+        return Result.ok();
     }
 
 
     /**
-     * 根据通知通道配置主键获取详细信息。
-     *
-     * @param id notification主键
-     * @return 通知通道配置详情
+     * 详情
      */
     @GetMapping("/getInfo/{id}")
-    public Channel getInfo(@PathVariable Serializable id) {
-        return channelService.getById(id);
+    public Result<ChannelVO> getInfo(@PathVariable Integer id) {
+        return Result.ok(channelService.getInfo(id));
     }
 
 
     /**
-     * 分页查询通知通道配置
-     *
-     * @param page 分页对象
-     * @return 分页对象
+     * 获取分页
      */
     @GetMapping("/page")
-    public Page<Channel> page(Page<Channel> page) {
-        return channelService.page(page);
+    public Result<Page<ChannelVO>> page(Page page, ChannelPageDTO channelPageDTO) {
+        return Result.ok(channelService.getPage(page, channelPageDTO));
     }
 }

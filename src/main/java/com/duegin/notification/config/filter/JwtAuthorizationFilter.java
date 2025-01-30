@@ -22,6 +22,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static com.duegin.notification.constant.UserConstant.USER_SESSION_KEY;
+
 /**
  * 处理HTTP请求的BASIC授权标头，然后将结果放入SecurityContextHolder
  *
@@ -56,6 +58,13 @@ public class JwtAuthorizationFilter implements Filter {
                 chain.doFilter(request, response);
                 return;
             }
+        }
+
+        Object userAttribute = request.getSession().getAttribute(USER_SESSION_KEY);
+        if (userAttribute != null) {
+            UserContext.setUser((User) userAttribute);
+            chain.doFilter(request, response);
+            return;
         }
 
         // 拿出请求头的token

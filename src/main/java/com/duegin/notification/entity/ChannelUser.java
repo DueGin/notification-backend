@@ -6,6 +6,8 @@ import com.mybatisflex.annotation.KeyType;
 import com.mybatisflex.annotation.Table;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 /**
  * 用户订阅通知 实体类。
  *
@@ -13,8 +15,8 @@ import lombok.Data;
  * @since 1.0
  */
 @Data
-@Table(value = "user_channel")
-public class UserChannel {
+@Table(value = "channel_user")
+public class ChannelUser {
 
     @Id(keyType = KeyType.Auto)
     private Integer id;
@@ -31,5 +33,9 @@ public class UserChannel {
     @Column(value = "channel_id")
     private Integer channelId;
 
+    /**
+     * 加入时间
+     */
+    private LocalDateTime createTime;
 
 }

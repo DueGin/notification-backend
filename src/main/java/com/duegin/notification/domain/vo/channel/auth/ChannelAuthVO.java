@@ -1,4 +1,4 @@
-package com.duegin.notification.domain.vo.channel_auth;
+package com.duegin.notification.domain.vo.channel.auth;
 
 import lombok.Data;
 
@@ -13,5 +13,6 @@ public class ChannelAuthVO {
 
     private Integer id;
     private Integer channelId;
+    private String token;
     private LocalDateTime createTime;
 }

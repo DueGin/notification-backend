@@ -2,7 +2,7 @@ package com.duegin.notification.service.channel.auth;
 
 import com.duegin.notification.config.UserContext;
 import com.duegin.notification.config.base.service.impl.BaseServiceImpl;
-import com.duegin.notification.domain.vo.channel_auth.ChannelAuthVO;
+import com.duegin.notification.domain.vo.channel.auth.ChannelAuthVO;
 import com.duegin.notification.entity.ChannelAuth;
 import com.duegin.notification.entity.User;
 import com.duegin.notification.mapper.ChannelAuthMapper;
@@ -13,10 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-
 import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
 
 import static com.duegin.notification.entity.table.ChannelAuthTableDef.CHANNEL_AUTH;
 
@@ -27,6 +25,7 @@ import static com.duegin.notification.entity.table.ChannelAuthTableDef.CHANNEL_A
 @Slf4j
 @Service
 public class ChannelAuthService extends BaseServiceImpl<ChannelAuthMapper, ChannelAuth> {
+
     @Resource
     private UserMapper userMapper;
 

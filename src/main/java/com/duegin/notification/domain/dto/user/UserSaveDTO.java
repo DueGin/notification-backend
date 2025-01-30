@@ -24,6 +24,11 @@ public class UserSaveDTO {
     private String username;
 
     /**
+     * 手机号
+     */
+    private String phone;
+
+    /**
      * 邮箱
      */
     private String email;

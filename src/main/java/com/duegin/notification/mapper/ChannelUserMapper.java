@@ -1,6 +1,6 @@
 package com.duegin.notification.mapper;
 
-import com.duegin.notification.entity.UserChannel;
+import com.duegin.notification.entity.ChannelUser;
 import com.mybatisflex.core.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -11,7 +11,7 @@ import org.apache.ibatis.annotations.Mapper;
  * @since 1.0
  */
 @Mapper
-public interface UserChannelMapper extends BaseMapper<UserChannel> {
+public interface ChannelUserMapper extends BaseMapper<ChannelUser> {
 
 
 }

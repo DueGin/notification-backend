@@ -44,4 +44,6 @@ public class Channel {
     @Column(value = "update_time")
     private LocalDateTime updateTime;
 
+    @Column(value = "deleted")
+    private Integer deleted;
 }

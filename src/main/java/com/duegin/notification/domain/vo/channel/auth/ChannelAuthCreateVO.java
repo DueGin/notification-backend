@@ -1,4 +1,4 @@
-package com.duegin.notification.domain.vo.channel_auth;
+package com.duegin.notification.domain.vo.channel.auth;
 
 import lombok.Data;
 
