@@ -47,4 +47,8 @@ public class Result<T> {
     public static <T> Result<T> fail(String msg) {
         return new Result<>(ResultEnum.ERROR.getCode(), msg, null);
     }
+
+    public static <T> Result<T> fail() {
+        return new Result<>(ResultEnum.ERROR.getCode(), "操作失败", null);
+    }
 }

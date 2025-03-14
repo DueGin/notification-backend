@@ -1,6 +1,7 @@
-package com.duegin.notification.controller;
+package com.duegin.notification.controller.channel.user;
 
 import com.duegin.notification.config.Result;
+import com.duegin.notification.domain.dto.channel.user.subscribe.ChannelUserSubscribeDTO;
 import com.duegin.notification.domain.dto.channel.user.subscribe.ChannelUserSubscribePageDTO;
 import com.duegin.notification.domain.vo.channel.user.ChannelUserVO;
 import com.duegin.notification.service.channel.user.subscribe.ChannelUserSubscribeService;
@@ -20,6 +21,14 @@ public class ChannelUserSubscribeController {
     @Resource
     private ChannelUserSubscribeService channelUserSubscribeService;
 
+    /**
+     * 通过名称订阅频道
+     */
+    @PostMapping("/")
+    public Result<Void> subscribe(@RequestBody ChannelUserSubscribeDTO channelUserSubscribeDTO) {
+        channelUserSubscribeService.subscribe(channelUserSubscribeDTO);
+        return Result.ok();
+    }
 
     /**
      * 获取用户自己订阅列表

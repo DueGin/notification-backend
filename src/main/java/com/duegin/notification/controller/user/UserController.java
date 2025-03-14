@@ -1,4 +1,4 @@
-package com.duegin.notification.controller;
+package com.duegin.notification.controller.user;
 
 import com.duegin.notification.config.Result;
 import com.duegin.notification.config.UserContext;

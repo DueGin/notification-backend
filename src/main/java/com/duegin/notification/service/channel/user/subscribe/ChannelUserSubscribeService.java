@@ -4,16 +4,23 @@ import com.duegin.notification.config.UserContext;
 import com.duegin.notification.config.exception.BusinessException;
 import com.duegin.notification.convert.ChannelUserConvertor;
 import com.duegin.notification.domain.dto.channel.user.ChannelUserPageDTO;
+import com.duegin.notification.domain.dto.channel.user.ChannelUserSaveDTO;
+import com.duegin.notification.domain.dto.channel.user.subscribe.ChannelUserSubscribeDTO;
 import com.duegin.notification.domain.dto.channel.user.subscribe.ChannelUserSubscribePageDTO;
 import com.duegin.notification.domain.vo.channel.user.ChannelUserVO;
+import com.duegin.notification.entity.Channel;
 import com.duegin.notification.entity.ChannelUser;
+import com.duegin.notification.mapper.ChannelMapper;
 import com.duegin.notification.mapper.ChannelUserMapper;
 import com.duegin.notification.service.channel.user.ChannelUserService;
 import com.mybatisflex.core.paginate.Page;
+import com.mybatisflex.core.query.QueryChain;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+
+import static com.duegin.notification.entity.table.ChannelTableDef.CHANNEL;
 
 /**
  * 用户订阅频道服务
@@ -31,6 +38,27 @@ public class ChannelUserSubscribeService {
     private ChannelUserMapper channelUserMapper;
     @Resource
     private ChannelUserConvertor channelUserConvertor;
+    @Resource
+    private ChannelMapper channelMapper;
+
+    /**
+     * 用户订阅频道
+     */
+    public void subscribe(ChannelUserSubscribeDTO channelUserSubscribeDTO) {
+        Integer userId = UserContext.getUserId();
+        Channel channel = QueryChain.of(channelMapper)
+                .from(CHANNEL)
+                .where(CHANNEL.NAME.eq(channelUserSubscribeDTO.getChannelName()))
+                .one();
+        if (channel == null) {
+            throw new BusinessException("频道不存在！");
+        }
+
+        ChannelUserSaveDTO channelUserSaveDTO = new ChannelUserSaveDTO();
+        channelUserSaveDTO.setUserId(userId);
+        channelUserSaveDTO.setChannelId(channel.getId());
+        channelUserService.save(channelUserSaveDTO);
+    }
 
     /**
      * 获取自己订阅的频道分页列表

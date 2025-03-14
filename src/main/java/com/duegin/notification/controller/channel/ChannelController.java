@@ -1,4 +1,4 @@
-package com.duegin.notification.controller;
+package com.duegin.notification.controller.channel;
 
 import com.duegin.notification.config.Result;
 import com.duegin.notification.domain.dto.ChannelSaveDTO;

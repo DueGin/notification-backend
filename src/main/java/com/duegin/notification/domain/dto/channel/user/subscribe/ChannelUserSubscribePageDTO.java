@@ -8,7 +8,17 @@ import lombok.Data;
  */
 @Data
 public class ChannelUserSubscribePageDTO {
+    /**
+     * 频道UUID
+     */
     protected String uuid;
+    /**
+     * 用户ID
+     */
     protected Integer userId;
+    /**
+     * 频道名称
+     */
+    protected String channelName;
 
 }

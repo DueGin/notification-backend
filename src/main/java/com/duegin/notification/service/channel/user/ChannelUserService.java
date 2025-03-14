@@ -35,6 +35,7 @@ public class ChannelUserService extends BaseServiceImpl<ChannelUserMapper, Chann
                 .leftJoin(USER).on(CHANNEL_USER.USER_ID.eq(USER.ID))
                 .where(CHANNEL.UUID.like(channelUserPageDTO.getUuid(), If::hasText))
                 .and(CHANNEL.ID.eq(channelUserPageDTO.getChannelId(), If::notNull))
+                .and(CHANNEL.NAME.like(channelUserPageDTO.getChannelName(), If::hasText))
                 .and(CHANNEL_USER.USER_ID.eq(channelUserPageDTO.getUserId(), If::notNull))
                 .and(CHANNEL_USER.CREATE_TIME.between(channelUserPageDTO.getCreateTimeFrom() + " 00:00:00", channelUserPageDTO.getCreateTimeTo() + " 23:59:59",
                         channelUserPageDTO.getCreateTimeFrom() != null && channelUserPageDTO.getCreateTimeTo() != null))
@@ -43,7 +44,7 @@ public class ChannelUserService extends BaseServiceImpl<ChannelUserMapper, Chann
 
     public Integer save(ChannelUserSaveDTO channelUserSaveDTO) {
         ChannelUser channelUser = channelUserConvertor.channelUserSaveDTO2ChannelUser(channelUserSaveDTO);
-        mapper.insert(channelUser);
+        mapper.insertSelective(channelUser);
         return channelUser.getId();
     }
 }

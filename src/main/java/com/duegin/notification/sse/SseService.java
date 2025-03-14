@@ -16,7 +16,7 @@ public class SseService {
     /**
      * messageId的 SseEmitter对象映射集
      */
-    private static Map<String, SseEmitter> sseEmitterMap = new ConcurrentHashMap<>();
+    private static final Map<String, SseEmitter> sseEmitterMap = new ConcurrentHashMap<>();
 
     /**
      * 连接sse
